@@ -1,0 +1,13 @@
+const express = require('express');
+var app = express();
+var JsonDB = require('node-json-db');
+var db = new JsonDB('./flux-info', true, false);
+
+app.get('/', (req, res) => {
+    res.send('Hello Welcome!')
+})
+app.post('/', (req, res) => {
+    "lors de l'évenement POST on peu récuperer les data"
+    //console.log(db.getData("/")) 
+})
+module.exports = app;
