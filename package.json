@@ -11,7 +11,6 @@
   "dependencies": {
     "express": "^4.16.2",
     "feedparser": "^2.2.9",
-    "node-fetch": "^2.0.0",
     "node-json-db": "^0.7.3",
     "request": "^2.83.0"
   }
