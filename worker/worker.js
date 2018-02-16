@@ -41,7 +41,6 @@ var jvdRSS = (req, res, next) => {
                 permalink : item.permalink
             };
             db.push('/JVDRSS/'+item.title, info);
-            request.post('http://localhost:9001')
         }
     })
     next();
@@ -74,7 +73,6 @@ var jvdRSSNews = (req, res, next) => {
                 permalink : item.permalink
             };
             db.push('/JVDRSS-News/'+item.title, info)
-            request.post('http://localhost:9001')
         }
     })
     next();
@@ -106,7 +104,6 @@ var jvdItunsCh = (req, res, next) => {
                 permalink : item.permalink
             };
             db.push('/Itunes-chronicles/'+item.title, info)
-            request.post('http://localhost:9001')
         }
     })
     next();
@@ -138,7 +135,6 @@ var jvdRSSVideo = (req, res, next) => {
                 permalink : item.permalink
             };
             db.push('/JVDRSS-Video/'+item.title, info)
-            request.post('http://localhost:9001')
         }
     })
     next();
@@ -170,7 +166,6 @@ var googleFeed = (req, res, next) => {
                 permalink : item.link
             };
             db.push('/Google-feed/'+item.title, info)
-            request.post('http://localhost:9001')
         }
     })
     next();
@@ -202,7 +197,6 @@ var numeramaFeed = (req, res, next) => {
                 permalink : item.link
             };
             db.push('/Numerama-feed/'+item.title, info)
-            request.post('http://localhost:9001')
         }
     })
     next();
@@ -217,7 +211,6 @@ var ycombinatorFeed = (req, res, next) => {
             resp.on('error',(err)=>{
                 console.log(err)
             })
-            //console.log(resp.error)
         }else {
             stream.pipe(feedParser);
         }
@@ -238,11 +231,12 @@ var ycombinatorFeed = (req, res, next) => {
                 permalink : item.link
             };
             db.push('/Ycombinator-feed/'+item.title, info)
-            request.post('http://localhost:9001')
         }
     })
     next(); 
 };
+
+
 
 worker.use(jvdRSS)
 worker.use(jvdRSSNews)
@@ -251,5 +245,11 @@ worker.use(jvdRSSVideo)
 worker.use(googleFeed)
 worker.use(numeramaFeed)
 worker.use(ycombinatorFeed)
+worker.use((req, res, next)=>{
+    setInterval(function(){
+        request.post('http://localhost:9001')
+    },3000)
+    next();
+})
 
 module.exports = worker;
